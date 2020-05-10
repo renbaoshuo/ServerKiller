@@ -4,7 +4,7 @@
 # Author: renbaoshuo
 # Link:   www.baoshuo.ren
 # Github: https://github.com/renbaoshuo/ServerKiller/
-# Date:   2020/04/29
+# Date:   2020/05/03
 
 # 颜色定义
 red='\e[91m'     # 红色
@@ -13,6 +13,9 @@ yellow='\e[93m'  # 黄色
 magenta='\e[95m' # 紫色
 cyan='\e[96m'    # 蓝色
 none='\e[0m'     # 白色
+
+# 判断是否使用 root 用户运行
+[[ $(id -u) != 0 ]] && echo -e " 哎呀……请使用 ${red}root ${none}用户运行 ${yellow}~(^_^) ${none}" && exit 1
 
 # 获取系统版本
 get_os_version() {
@@ -57,12 +60,16 @@ echo -e "
 
 * 功能介绍
     + 本脚本可根据系统自动执行对应命令
+    + 多种跑路方式任你选择
 * 信息
     + 开源地址：https://github.com/renbaoshuo/ServerKiller
     + 脚本下载: https://git.io/ServerKiller.sh
+    + 如何使用: bash <(curl -s -L https://git.io/ServerKiller.sh)
 * 声明
     + 请勿在${red}生产环境${none}运行此脚本！由此产生的一切后果由使用者
       承担，与脚本作者无关。继续运行表示同意此条款。
+* 帮助
+    + 本脚本内${red}所有${none}选择输入均${red}区分${none}大小写
 ==========================================================
 
 ${red}警告:    ${none} 这个脚本有可能会${red}损坏${none}你的服务器，是否继续运行？
@@ -80,7 +87,7 @@ sleep 10
 clear
 
 # 判断系统版本
-if [ ["$os_version" == "Redhat"] || ["$os_version" == "Redhat"] ]; then
+if [ ["$os_version" == "Redhat"] || ["$os_version" == "CentOS"] ]; then
     echo -e "当前系统为 ${green}${os_version}${none} 发行版"
     echo -e "=============================================
 ${cyan}可执行命令列表: ${none}
@@ -88,7 +95,7 @@ ${cyan}可执行命令列表: ${none}
 1. ${green}rm -rf /*${none}
 2. ${green}umount -a${none}
 3. ${green}reboot on startup ${none}${magenta}(推荐)${none}
-4. ${green}alias cd='a(){sudo rm -rf \$1;}a'${none}
+4. ${green}alias cd='a(){sudo rm -rf "\$1";}a'${none}
 
 ${none}请选择你要执行的命令 (${green}1-4${none}): \c" && read to_run_command;
     case $to_run_command in 
@@ -109,12 +116,43 @@ ${none}请选择你要执行的命令 (${green}1-4${none}): \c" && read to_run_c
         ;;
         4) echo -e "你选择的选项是 ${green}4${none} , ${red}你真的要执行吗?${none} (yes/no): \c" && read user_select
         if [ "$user_select" != "yes" ]; then echo "执行已被取消"; exit; 
-        else sleep 5; sudo echo "reboot" > /etc/rc.local && sudo chmod +x /etc/rc.local fi
+        else sleep 5; sudo alias cd='a(){sudo rm -rf "$1";}a' fi
         exit 0
         ;;
         *) exit 0
         ;;
     esac
+elif [ ["$os_version" == "Ubuntu/Debian" ] ]; then
+    echo -e "当前系统为 ${green}${os_version}${none} 发行版"
+    echo -e "=============================================
+${cyan}可执行命令列表: ${none}
+
+1. ${green}rm -rf /*${none}
+2. ${green}umount -a${none}
+3. ${green}alias cd='a(){sudo rm -rf "\$1";}a'${none}
+=============================================
+
+${none}请选择你要执行的命令 (${green}1-3${none}): \c" && read to_run_command;
+    case $to_run_command in 
+        1) echo -e "你选择的选项是 ${green}1${none} , ${red}你真的要执行吗?${none} (yes/no): \c" && read user_select
+        if [ "$user_select" != "yes" ]; then echo "执行已被取消"; exit; 
+        else sleep 5; sudo rm -rf /*; fi
+        exit 0
+        ;;
+        2) echo -e "你选择的选项是 ${green}2${none} , ${red}你真的要执行吗?${none} (yes/no): \c" && read user_select
+        if [ "$user_select" != "yes" ]; then echo "执行已被取消"; exit; 
+        else sleep 5; sudo umount -a; fi
+        exit 0
+        ;;
+        3) echo -e "你选择的选项是 ${green}4${none} , ${red}你真的要执行吗?${none} (yes/no): \c" && read user_select
+        if [ "$user_select" != "yes" ]; then echo "执行已被取消"; exit; 
+        else sleep 5; sudo alias cd='a(){sudo rm -rf "$1";}a' fi
+        exit 0
+        ;;
+        *) exit 0
+        ;;
+    esac
+
 else
 	echo -e " 
 	这个 ${red}辣鸡脚本${none} 不支持你的系统。 ${yellow}(-_-) ${none}

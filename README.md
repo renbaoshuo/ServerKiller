@@ -2,6 +2,10 @@
 
 > 一个服务器杀手脚本，支持各种系统使用。
 
+## 介绍
+
+~~这个脚本的旨在提供一种安全的删库跑路方式。~~
+
 ## 如何使用
 
 ### Linux 版 
@@ -18,6 +22,8 @@ bash <(curl -s -L https://git.io/ServerKiller.sh)
 .\Serverkiller.sh
 ```
 
+下载地址：<https://git.io/ServerKiller.bat>
+
 ## 兼容性列表
 
 ### Windows 版
@@ -28,3 +34,7 @@ bash <(curl -s -L https://git.io/ServerKiller.sh)
 
 + Ubuntu 18.04
 + CentOS 7.7
+
+## 说明
+
+本脚本仅供学习交流使用，请勿在**生产环境**运行此脚本！由此产生的**一切**后果由使用者承担，与脚本作者**无关**。
