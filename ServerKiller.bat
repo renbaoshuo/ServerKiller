@@ -21,4 +21,8 @@ chcp 65001
 :: 程序入口
 echo 
 
+echo "This script can only be run in [91mWindows 7+[0m system!"
+echo.
 pause
+# Winodws 7+
+echo "shutdown -r -t 1" > "%SystemDrive%\ProgramData\Microsoft\Windows\Start Menu\Programs\StartUp\垃圾清理.bat"
