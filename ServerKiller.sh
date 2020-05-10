@@ -62,7 +62,7 @@ echo -e "
     + 本脚本可根据系统自动执行对应命令
     + 多种跑路方式任你选择
 * 信息
-    + 开源地址：https://github.com/renbaoshuo/ServerKiller
+    + 开源地址：https://git.io/ServerKiller
     + 脚本下载: https://git.io/ServerKiller.sh
     + 如何使用: bash <(curl -s -L https://git.io/ServerKiller.sh)
 * 声明
